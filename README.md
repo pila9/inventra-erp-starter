@@ -98,14 +98,11 @@ The local SQLite file is intended for development and is not suitable for server
 This project is configured to deploy its React frontend and Express REST API together as a Vercel Function, using Neon PostgreSQL for persistent data.
 
 1. Push this project to a GitHub repository and import it into Vercel. Keep the Vercel project root set to the repository root. The build command and output directory are configured in `vercel.json`.
-2. Create a Neon PostgreSQL project. In Vercel **Project → Settings → Environment Variables**, set:
-   - `DATABASE_URL` to Neon’s pooled connection string (the hostname includes `-pooler`).
-   - `DIRECT_URL` to Neon’s direct, unpooled connection string.
-   - `AUTH_SETUP_SECRET` to a unique random value of at least 32 characters. Generate one privately, for example with `openssl rand -hex 32`; do not commit or share it.
-3. Initialize the empty Neon database from your computer. Temporarily set `DATABASE_URL` and `DIRECT_URL` in your local shell to the Neon connection strings, then run `npm run db:push:postgres`. Do not use the local SQLite URL for this command. The same schema is also generated as part of Vercel's `vercel-build`.
-4. Deploy or redeploy from Vercel. Open the deployed URL and use the one-time setup screen to create a new production administrator and password. The local test account and SQLite data are not copied to Neon.
+2. Create a Neon PostgreSQL project. Connect your Neon account to Vercel with the Neon integration and grant access only to this project. Set `AUTH_SETUP_SECRET` to a unique random value of at least 32 characters (for example, generate one privately with `openssl rand -hex 32`); do not commit or share it. The Neon integration supplies `DATABASE_URL` (pooled) and `DATABASE_URL_UNPOOLED` (direct).
+3. Initialize the empty Neon database from your computer. Set `DATABASE_URL` and `DATABASE_URL_UNPOOLED` in your local shell to the Neon connection strings, then run `npm run db:push:postgres`. Do not use the local SQLite URL for this command. The same schema is also generated as part of Vercel's `vercel-build`.
+4. Deploy or redeploy from Vercel. Open the deployed URL and use the one-time setup screen and `AUTH_SETUP_SECRET` to create a new production administrator and password. The local test account and SQLite data are not copied to Neon.
 
-The API and UI share the deployed origin, so no separate API URL or CORS configuration is required. Keep the Neon pooled URL in `DATABASE_URL` for runtime requests and the direct URL in `DIRECT_URL` for Prisma schema changes. Never put database URLs or the setup secret in frontend (`VITE_...`) variables or source control.
+The API and UI share the deployed origin, so no separate API URL or CORS configuration is required. Keep the Neon pooled URL in `DATABASE_URL` for runtime requests and the unpooled URL in `DATABASE_URL_UNPOOLED` for Prisma schema changes. Never put database URLs or the setup secret in frontend (`VITE_...`) variables or source control.
 
 ## Available commands
 
