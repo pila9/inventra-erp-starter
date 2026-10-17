@@ -377,7 +377,7 @@ tbody tr:hover .row-delete, .row-delete:focus-visible { opacity: 1; }
 .dashboard-inline-error { margin-bottom: 15px; }
 .dashboard-loading { min-height: 50vh; }
 .auth-screen { display: grid; min-height: 100vh; place-items: center; padding: 24px; background: #f4f6f3; }
-.auth-card { width: min(100%, 430px); padding: 30px; border: 1px solid #e5e9e4; border-radius: 14px; background: #fff; box-shadow: 0 14px 45px #19233012; }
+.auth-card { width: min(100%, 470px); padding: 30px; border: 1px solid #e5e9e4; border-radius: 14px; background: #fff; box-shadow: 0 14px 45px #19233012; }
 .auth-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 31px; }
 .auth-brand .brand-name { font-size: 21px; }
 .auth-icon { display: grid; width: 43px; height: 43px; place-items: center; border-radius: 11px; background: #eff3ed; color: #528c4d; }
@@ -388,6 +388,16 @@ tbody tr:hover .row-delete, .row-delete:focus-visible { opacity: 1; }
 .auth-form input { width: 100%; height: 41px; padding: 0 11px; border: 1px solid #dfe3e8; border-radius: 7px; outline: 0; color: #303844; font-size: 12px; font-weight: 400; }
 .auth-form input:focus { border-color: #83ac7e; box-shadow: 0 0 0 3px #509c4b16; }
 .auth-submit { width: 100%; margin-top: 3px; }
+.demo-login { display: grid; gap: 10px; margin-bottom: 18px; padding: 13px; border: 1px solid #dce8d8; border-radius: 8px; background: #f7faf5; }
+.demo-login-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #344338; font-size: 11px; }
+.demo-login-heading span { padding: 4px 7px; border-radius: 5px; background: #e8f0e4; color: #52764e; font-size: 9px; font-weight: 600; }
+.demo-login dl { display: grid; gap: 7px; margin: 0; }
+.demo-login dl > div { display: grid; grid-template-columns: 66px minmax(0, 1fr); align-items: start; gap: 7px; }
+.demo-login dt { color: #778279; font-size: 10px; }
+.demo-login dd { min-width: 0; margin: 0; color: #303844; font-size: 10px; overflow-wrap: anywhere; }
+.demo-login code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.demo-login-button { width: 100%; min-height: 34px; font-size: 10px; }
+.demo-login > p { margin: 0; color: #89948b; font-size: 9px; line-height: 1.45; }
 .auth-setup-help { display: grid; gap: 6px; padding: 12px; border: 1px solid #f0dfbd; border-radius: 7px; background: #fffaf1; color: #8c6b3c; font-size: 10px; line-height: 1.5; }
 .auth-setup-help code { padding: 2px 4px; border-radius: 3px; background: #f7efdE; }
 .auth-error { align-items: flex-start; }

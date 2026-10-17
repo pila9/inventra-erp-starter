@@ -50,6 +50,11 @@ const navigation = [
   { label: "Setting", icon: Settings },
 ];
 
+const demoLogin = {
+  email: "dara.vann@demo.example",
+  password: "Demo-3d288e62840fbced1fc7c942ea6ab6df-Aa1!",
+};
+
 async function api(path, options = {}) {
   const response = await fetch(`/api${path}`, {
     ...options,
@@ -457,6 +462,16 @@ function AuthPage({ mode, setupAvailable, startupError, onSubmit, onRetry }) {
         {isChecking ? <div className="empty-state auth-loading"><span className="spinner" /></div> : startupError ? (
           <div className="report-error auth-error" role="alert"><AlertTriangle size={17} /><span>{startupError}</span><button type="button" onClick={onRetry}>Retry</button></div>
         ) : (
+          <>
+          {!isSetup && <aside className="demo-login" aria-label="Demo account credentials">
+            <div className="demo-login-heading"><b>Try the demo account</b><span>Staff access</span></div>
+            <dl>
+              <div><dt>Email</dt><dd><code>{demoLogin.email}</code></dd></div>
+              <div><dt>Password</dt><dd><code>{demoLogin.password}</code></dd></div>
+            </dl>
+            <button className="secondary-button demo-login-button" type="button" onClick={() => { setEmail(demoLogin.email); setPassword(demoLogin.password); }}>Fill demo login</button>
+            <p>Shared public demo account. Changes may be visible to other visitors.</p>
+          </aside>}
           <form className="auth-form" onSubmit={submit}>
             {isSetup && !setupAvailable && <div className="auth-setup-help" role="note"><b>Setup secret required</b><span>Set <code>AUTH_SETUP_SECRET</code> in the API environment to a random value with at least 32 characters, then restart the API.</span></div>}
             {isSetup && <>
@@ -469,6 +484,7 @@ function AuthPage({ mode, setupAvailable, startupError, onSubmit, onRetry }) {
             {formError && <p className="form-error" role="alert">{formError}</p>}
             <button className="primary-button auth-submit" type="submit" disabled={submitting || (isSetup && !setupAvailable)}>{submitting ? "Please wait…" : isSetup ? "Create administrator" : "Sign in"}</button>
           </form>
+          </>
         )}
         {!isSetup && !isChecking && !startupError && <p className="auth-footnote">Contact your workspace administrator if you need help accessing your account.</p>}
       </section>
