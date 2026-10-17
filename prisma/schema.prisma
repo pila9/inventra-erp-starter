@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                Int                  @id @default(autoincrement())
+  name              String
+  sku               String               @unique
+  category          String
+  incoming          Int                  @default(0)
+  stock             Int                  @default(0)
+  unitPrice         Float
+  lowStockThreshold Int                  @default(5)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  productionOrders  ProductionOrder[]    @relation("ProductionOutput")
+  materialForOrders ProductionMaterial[] @relation("ProductionInput")
+  salesOrderItems   SalesOrderItem[]
+}
+
+model ProductionOrder {
+  id              Int                  @id @default(autoincrement())
+  outputProductId Int
+  outputProduct   Product              @relation("ProductionOutput", fields: [outputProductId], references: [id], onDelete: Restrict)
+  quantity        Int
+  status          String               @default("PLANNED")
+  materials       ProductionMaterial[]
+  createdAt       DateTime             @default(now())
+  completedAt     DateTime?
+}
+
+model ProductionMaterial {
+  id              Int             @id @default(autoincrement())
+  orderId         Int
+  order           ProductionOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId       Int
+  product         Product         @relation("ProductionInput", fields: [productId], references: [id], onDelete: Restrict)
+  quantityPerUnit Int
+
+  @@unique([orderId, productId])
+}
+
+model SalesOrder {
+  id          Int              @id @default(autoincrement())
+  customer    String
+  email       String?
+  notes       String?
+  status      String           @default("OPEN")
+  totalAmount Float
+  items       SalesOrderItem[]
+  createdAt   DateTime         @default(now())
+  fulfilledAt DateTime?
+}
+
+model SalesOrderItem {
+  id          Int        @id @default(autoincrement())
+  orderId     Int
+  order       SalesOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   Int
+  product     Product    @relation(fields: [productId], references: [id], onDelete: Restrict)
+  productName String
+  sku         String
+  quantity    Int
+  unitPrice   Float
+
+  @@unique([orderId, productId])
+}
+
+model UserAccount {
+  id           Int                    @id @default(autoincrement())
+  fullName     String
+  email        String                 @unique
+  passwordHash String?
+  role         String                 @default("STAFF")
+  status       String                 @default("ACTIVE")
+  permissions  UserModulePermission[]
+  sessions     AuthSession[]
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+}
+
+model UserModulePermission {
+  id      Int         @id @default(autoincrement())
+  userId  Int
+  user    UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module  String
+  canView Boolean     @default(false)
+
+  @@unique([userId, module])
+}
+
+model SupportTicket {
+  id          Int            @id @default(autoincrement())
+  requester   String
+  email       String
+  subject     String
+  category    String
+  priority    String         @default("NORMAL")
+  status      String         @default("OPEN")
+  description String
+  replies     SupportReply[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model SupportReply {
+  id        Int           @id @default(autoincrement())
+  ticketId  Int
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author    String
+  message   String
+  createdAt DateTime      @default(now())
+}
+
+model AppSettings {
+  id                       Int      @id @default(1)
+  businessName             String   @default("My business")
+  contactEmail             String   @default("")
+  phone                    String   @default("")
+  address                  String   @default("")
+  defaultLowStockThreshold Int      @default(5)
+  authSetupComplete        Boolean  @default(false)
+  updatedAt                DateTime @updatedAt
+}
+
+model AuthSession {
+  id        Int         @id @default(autoincrement())
+  tokenHash String      @unique
+  userId    Int
+  user      UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime    @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
