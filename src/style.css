@@ -391,6 +391,7 @@ tbody tr:hover .row-delete, .row-delete:focus-visible { opacity: 1; }
 .demo-login { display: grid; gap: 10px; margin-bottom: 18px; padding: 13px; border: 1px solid #dce8d8; border-radius: 8px; background: #f7faf5; }
 .demo-login-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #344338; font-size: 11px; }
 .demo-login-heading span { padding: 4px 7px; border-radius: 5px; background: #e8f0e4; color: #52764e; font-size: 9px; font-weight: 600; }
+.demo-account { display: grid; gap: 8px; padding: 10px; border: 1px solid #e5ebe2; border-radius: 6px; background: #fff; color: #344338; font-size: 10px; }
 .demo-login dl { display: grid; gap: 7px; margin: 0; }
 .demo-login dl > div { display: grid; grid-template-columns: 66px minmax(0, 1fr); align-items: start; gap: 7px; }
 .demo-login dt { color: #778279; font-size: 10px; }
@@ -398,6 +399,7 @@ tbody tr:hover .row-delete, .row-delete:focus-visible { opacity: 1; }
 .demo-login code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .demo-login-button { width: 100%; min-height: 34px; font-size: 10px; }
 .demo-login > p { margin: 0; color: #89948b; font-size: 9px; line-height: 1.45; }
+.demo-login .demo-admin-warning { margin: 0; padding: 9px; border: 1px solid #f0d7d2; border-radius: 6px; background: #fff7f5; color: #a0453c; font-size: 10px; line-height: 1.45; }
 .auth-setup-help { display: grid; gap: 6px; padding: 12px; border: 1px solid #f0dfbd; border-radius: 7px; background: #fffaf1; color: #8c6b3c; font-size: 10px; line-height: 1.5; }
 .auth-setup-help code { padding: 2px 4px; border-radius: 3px; background: #f7efdE; }
 .auth-error { align-items: flex-start; }

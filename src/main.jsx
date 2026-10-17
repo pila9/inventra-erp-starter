@@ -50,10 +50,18 @@ const navigation = [
   { label: "Setting", icon: Settings },
 ];
 
-const demoLogin = {
-  email: "dara.vann@demo.example",
-  password: "Demo-3d288e62840fbced1fc7c942ea6ab6df-Aa1!",
-};
+const demoLogins = [
+  {
+    label: "Staff access",
+    email: "dara.vann@demo.example",
+    password: "Demo-3d288e62840fbced1fc7c942ea6ab6df-Aa1!",
+  },
+  {
+    label: "Administrator access",
+    email: "admin@inventra.local",
+    password: "ERP-wWYwka-iQW5k5sSEwlpObaKa-Aa1!",
+  },
+];
 
 async function api(path, options = {}) {
   const response = await fetch(`/api${path}`, {
@@ -464,13 +472,17 @@ function AuthPage({ mode, setupAvailable, startupError, onSubmit, onRetry }) {
         ) : (
           <>
           {!isSetup && <aside className="demo-login" aria-label="Demo account credentials">
-            <div className="demo-login-heading"><b>Try the demo account</b><span>Staff access</span></div>
-            <dl>
-              <div><dt>Email</dt><dd><code>{demoLogin.email}</code></dd></div>
-              <div><dt>Password</dt><dd><code>{demoLogin.password}</code></dd></div>
-            </dl>
-            <button className="secondary-button demo-login-button" type="button" onClick={() => { setEmail(demoLogin.email); setPassword(demoLogin.password); }}>Fill demo login</button>
-            <p>Shared public demo account. Changes may be visible to other visitors.</p>
+            <div className="demo-login-heading"><b>Try a demo account</b><span>Shared demo</span></div>
+            <p className="demo-admin-warning" role="alert">Administrator access can change all shared demo data, users, permissions, and workspace settings.</p>
+            {demoLogins.map((account) => <div className="demo-account" key={account.email}>
+              <b>{account.label}</b>
+              <dl>
+                <div><dt>Email</dt><dd><code>{account.email}</code></dd></div>
+                <div><dt>Password</dt><dd><code>{account.password}</code></dd></div>
+              </dl>
+              <button className="secondary-button demo-login-button" type="button" onClick={() => { setEmail(account.email); setPassword(account.password); }}>Fill {account.label.toLowerCase()} login</button>
+            </div>)}
+            <p>Shared public accounts. Changes may be visible to other visitors.</p>
           </aside>}
           <form className="auth-form" onSubmit={submit}>
             {isSetup && !setupAvailable && <div className="auth-setup-help" role="note"><b>Setup secret required</b><span>Set <code>AUTH_SETUP_SECRET</code> in the API environment to a random value with at least 32 characters, then restart the API.</span></div>}
